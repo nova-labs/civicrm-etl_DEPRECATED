@@ -63,9 +63,16 @@ class CopySpacemanGroupMembership extends Command
                     $new_membership->user_id = $entry->person_id;
                     $new_membership->group_id = $entry->group_id;
 
-                    $time = explode('.', $entry->date_created);
-                    $new_membership->created_at = $time[0];
-                    $new_membership->updated_at = $time[0];
+                    if ($entry->date_created == null) {
+                        $new_membership->created_at = "2019-12-25 12:00:00";
+                        $new_membership->updated_at = "2019-12-25 12:00:00";
+                    }
+                    else
+                    {
+                        $time = explode('.', $entry->date_created);
+                        $new_membership->created_at = $time[0];
+                        $new_membership->updated_at = $time[0];
+                    }
 
                     $new_membership->save();
                     $membership_added++;
