@@ -42,7 +42,7 @@ class CopySpacemanGroups extends Command
      */
     public function handle()
     {
-        $max_local_group_id = DB::table('groups')->max('id');
+        $max_local_group_id = DB::table('transfer_groups')->max('id');
         if (isset($max_local_group_id))
             $local_max = $max_local_group_id;
         else
