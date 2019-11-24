@@ -7,7 +7,15 @@
         "laravel"
     ],
     "license": "MIT",
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/jhoskins98/civi-api3"
+        }
+    ],
+
     "require": {
+        "leanwebstart/civi-api3": "dev-dev",
         "php": "^7.2",
         "fideloper/proxy": "^4.0",
         "laravel/framework": "^6.2",
