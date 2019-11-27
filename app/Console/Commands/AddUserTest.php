@@ -43,15 +43,101 @@ class AddUserTest extends Command
 
         $transfer_user = TransferUser::first();
 
-        $user_input = [];
-        dd($transfer_user);
+        //dd($transfer_user);
+
+        $name = explode(' ',$transfer_user->name);
+        $first_name = $name[0];
+        if (count($name)>1)
+            $last_name = $name[1];
+        else
+            $last_name = '';
+
+        //dd($name);
+
+        $user_input = [
+            'contact_type' => "Individual",
+            'display_name' => $transfer_user->name,
+            'first_name' => $first_name,
+            'last_name' => $last_name,
+            'email' => $transfer_user->email,
+        ];
+
 
         $api = new CiviApi();
 
 
-        $result = $api->Contact->Get(2);
+        $result = $api->Contact->Create($user_input);
 
 
         dd ($result);
     }
 }
+
+/*"contact_id": "2",
+            "contact_type": "Individual",
+            "contact_sub_type": "",
+            "sort_name": "jhoskins98@gmail.com",
+            "display_name": "jhoskins98@gmail.com",
+            "do_not_email": "0",
+            "do_not_phone": "0",
+            "do_not_mail": "0",
+            "do_not_sms": "0",
+            "do_not_trade": "0",
+            "is_opt_out": "0",
+            "legal_identifier": "",
+            "external_identifier": "",
+            "nick_name": "",
+            "legal_name": "",
+            "image_URL": "",
+            "preferred_communication_method": "",
+            "preferred_language": "en_US",
+            "preferred_mail_format": "Both",
+            "first_name": "",
+            "middle_name": "",
+            "last_name": "",
+            "prefix_id": "",
+            "suffix_id": "",
+            "formal_title": "",
+            "communication_style_id": "1",
+            "job_title": "",
+            "gender_id": "",
+            "birth_date": "",
+            "is_deceased": "0",
+            "deceased_date": "",
+            "household_name": "",
+            "organization_name": "",
+            "sic_code": "",
+            "contact_is_deleted": "0",
+            "current_employer": "",
+            "address_id": "",
+            "street_address": "",
+            "supplemental_address_1": "",
+            "supplemental_address_2": "",
+            "supplemental_address_3": "",
+            "city": "",
+            "postal_code_suffix": "",
+            "postal_code": "",
+            "geo_code_1": "",
+            "geo_code_2": "",
+            "state_province_id": "",
+            "country_id": "",
+            "phone_id": "",
+            "phone_type_id": "",
+            "phone": "",
+            "email_id": "2",
+            "email": "jhoskins98@gmail.com",
+            "on_hold": "0",
+            "im_id": "",
+            "provider_id": "",
+            "im": "",
+            "worldregion_id": "",
+            "world_region": "",
+            "languages": "English (United States)",
+            "individual_prefix": "",
+            "individual_suffix": "",
+            "communication_style": "Formal",
+            "gender": "",
+            "state_province_name": "",
+            "state_province": "",
+            "country": "",
+            "id": "2"*/
