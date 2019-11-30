@@ -41,35 +41,42 @@ class AddUserTest extends Command
     public function handle()
     {
 
-        $transfer_user = TransferUser::first();
+        $transfer_users = TransferUser::get();
 
-        //dd($transfer_user);
+        //dd(count($transfer_users));
 
-        $name = explode(' ',$transfer_user->name);
-        $first_name = $name[0];
-        if (count($name)>1)
-            $last_name = $name[1];
-        else
-            $last_name = '';
+        $count = 0;
 
-        //dd($name);
+        foreach ($transfer_users as $transfer_user) {
+            $name = explode(' ', $transfer_user->name);
+            $first_name = $name[0];
+            if (count($name) > 1)
+                $last_name = $name[1];
+            else
+                $last_name = '';
 
-        $user_input = [
-            'contact_type' => "Individual",
-            'display_name' => $transfer_user->name,
-            'first_name' => $first_name,
-            'last_name' => $last_name,
-            'email' => $transfer_user->email,
-        ];
+            //dd($name);
 
-
-        $api = new CiviApi();
-
-
-        $result = $api->Contact->Create($user_input);
+            $user_input = [
+                'contact_type' => "Individual",
+                'display_name' => $transfer_user->name,
+                'first_name' => $first_name,
+                'last_name' => $last_name,
+                'email' => $transfer_user->email,
+            ];
 
 
-        dd ($result);
+            $api = new CiviApi();
+
+
+            $result = $api->Contact->Create($user_input);
+
+            $count++;
+            if ($count > 100)
+                break;
+        }
+
+        echo $count;
     }
 }
 

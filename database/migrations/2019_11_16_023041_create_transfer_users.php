@@ -38,6 +38,10 @@ class CreateTransferUsers extends Migration
 
             $table->dateTime('confirmed_at')->nullable();
             $table->string('confirmation_code')->nullable();
+
+            $table->boolean('not_migrated')->default(true);
+            $table->boolean('transfer')->default(true);
+
             $table->timestamps();
         });
     }
