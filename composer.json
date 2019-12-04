@@ -15,11 +15,12 @@
     ],
 
     "require": {
-        "leanwebstart/civi-api3": "dev-dev",
         "php": "^7.2",
         "fideloper/proxy": "^4.0",
         "laravel/framework": "^6.2",
-        "laravel/tinker": "^1.0"
+        "laravel/tinker": "^1.0",
+        "leanwebstart/civi-api3": "dev-dev",
+        "stripe/stripe-php": "^7.14"
     },
     "require-dev": {
         "facade/ignition": "^1.4",
