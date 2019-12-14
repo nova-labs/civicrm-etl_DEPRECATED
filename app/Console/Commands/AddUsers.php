@@ -45,29 +45,56 @@ class AddUsers extends Command
             if ($transfer_user->transfer && $transfer_user->not_migrated){
 
                 $name = explode(' ', $transfer_user->name);
-                $first_name = $name[0];
 
-                if (count($name) > 1)
-                {
-                    $last_name = $name[1];
-                    // todo: fix for
+                $first_name = $last_name = $middle_name ='';
+
+                $fix_name = 0;
+
+                switch (count($name)) {
+                    case 0:
+                        $fix_name = 1;
+                        break;
+                    case 1:
+                        $last_name = $name[0];
+                        break;
+                    case 2:
+                        $first_name = $name[0];
+                        $last_name = $name[1];
+                        break;
+                    case 3:
+                        $first_name = $name[0];
+                        $middle_name = $name[1];
+                        $last_name = $name[2];
+                        break;
+                    case 4:
+                        $first_name = $name[0];
+                        $middle_name = $name[1];
+                        $last_name = $name[2] . ' ' . $name[3];
+                        $fix_name = 1;
+                    case 5:
+                        break;
+                    default:
+                        $fix_name = 1;
+                        break;
                 }
-                else
-                    $last_name = '';
+
 
                 $user_values = [
                     'contact_type' => "Individual",
-                    'display_name' => $transfer_user->name,
                     'first_name' => $first_name,
+                    'middle_name' => $middle_name,
                     'last_name' => $last_name,
                     'email' => $transfer_user->email,
+                    'do_not_trade' => $fix_name,
+
                 ];
 
                 $api = new CiviApi();
 
-                $result = $api->Contact->Create($user_input);
+                $result = $api->Contact->Create($user_values);
 
                 $transfer_user->not_migrated = false;
+                $transfer_user->civicrm_id = $result->id;
                 $transfer_user->update();
 
             }

@@ -32,9 +32,9 @@ class CreateTransferUsers extends Migration
             $table->string('phone', 15)->nullable();
 
             $table->string('stripe_id')->nullable();
+            $table->string('stripe_subscription_plan')->nullable();
             $table->string('card_brand')->nullable();
             $table->string('card_last_four')->nullable();
-            $table->timestamp('trial_ends_at')->nullable();
 
             $table->dateTime('confirmed_at')->nullable();
             $table->string('confirmation_code')->nullable();
