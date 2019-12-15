@@ -106,6 +106,8 @@ class CopySpacemanUsers extends Command
         if (isset($card_info[0]))
             $user->card_brand = $card_info[0];
 
+        $user->stripe_subscription_plan  = $legacy_user->stripe_subscription_plan;
+
         $user->badge_number = $legacy_user->badge_number;
         $user->family_primary_member_id = $legacy_user->family_primary_member_id;
 
