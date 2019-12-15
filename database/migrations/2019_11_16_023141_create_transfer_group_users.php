@@ -18,6 +18,12 @@ class CreateTransferGroupUsers extends Migration
             $table->integer('user_id',false, true);
             $table->integer('group_id',false, true);
             $table->integer('entered_by',false, true)->nullable();
+
+            $table->boolean('not_migrated')->default(true);
+            $table->boolean('transfer')->default(true);
+
+            $table->integer('civicrm_id')->unsigned()->nullable();
+
             $table->timestamps();
         });
     }
