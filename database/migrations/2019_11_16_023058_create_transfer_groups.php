@@ -18,6 +18,15 @@ class CreateTransferGroups extends Migration
             $table->string('name', 64);
             $table->string('description')->nullable();
             $table->integer('category')->unsigned()->nullable();
+
+            $table->boolean('not_migrated')->default(true);
+            $table->boolean('transfer')->default(false);
+
+            $table->integer('civicrm_id')->unsigned()->nullable();
+
+            $table->string('tool_name', 64)->nullable();
+            $table->string('tool_type', 64)->nullable();
+
             $table->timestamps();
         });
     }
