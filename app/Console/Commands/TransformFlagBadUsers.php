@@ -63,15 +63,30 @@ class TransformFlagBadUsers extends Command
             }
 
             // don't transfer any russian emails - dead and intended for spam
-            if ($tl_domain == 'ru' or $tl_domain == 'ga'){
+            if ($tl_domain == 'ru' or $tl_domain == 'xyz'){
                 $act_on_record = 1;
                 echo 'r';
             }
 
-            // don't transfer any cherrycreekschools.org emails - never used
+            // don't transfer any cherrycreekschools.org, etc. emails - never used
             if ($domain == 'cherrycreekschools'){
                 $act_on_record = 1;
                 echo 'c';
+            }
+
+            if ($domain == 'hayastana'){
+                $act_on_record = 1;
+                echo 'h';
+            }
+
+            if ($domain == 'yandex'){
+                $act_on_record = 1;
+                echo 'y';
+            }
+
+            if ($domain == 'opbeingop'){
+                $act_on_record = 1;
+                echo 'o';
             }
 
             // don't transfer accounts with multiple periods - intended for spam
