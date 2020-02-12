@@ -16,7 +16,7 @@ class CreateTransferUsers extends Migration
         Schema::create('transfer_users', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name');
-            $table->string('email')->unique();
+            $table->string('email');
             $table->string('password');
             $table->string('member_type')->default('Guest');
             $table->string('old_username')->nullable();
