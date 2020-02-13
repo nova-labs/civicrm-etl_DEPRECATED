@@ -43,6 +43,9 @@ class AddSignOffs extends Command
     {
         $signoffs = TransferGroupUser::where('transfer', 1)->where('not_migrated',1)->get();
 
+        $bar = $this->output->createProgressBar(count($transfer_users));
+        $bar->start();
+
         foreach($signoffs as $signoff){
 
             $user = TransferUser::where('id', $signoff->user_id )->first();
@@ -77,7 +80,9 @@ class AddSignOffs extends Command
                 $signoff->save();
 
             }
+            $bar->advance();
         }
+        $bar->finish();
 
 /*        "contact_id_a": "2",
             "contact_id_b": "5037",

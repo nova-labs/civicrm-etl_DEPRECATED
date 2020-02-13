@@ -41,6 +41,9 @@ class AddUsers extends Command
     {
         $transfer_users = TransferUser::get();
 
+        $bar = $this->output->createProgressBar(count($transfer_users));
+        $bar->start();
+
         foreach ($transfer_users as $transfer_user) {
             if ($transfer_user->transfer && $transfer_user->not_migrated){
 
@@ -97,7 +100,9 @@ class AddUsers extends Command
                 $transfer_user->civicrm_id = $result->id;
                 $transfer_user->update();
 
+                $bar->advance();
             }
         }
+        $bar->finish();
     }
 }
