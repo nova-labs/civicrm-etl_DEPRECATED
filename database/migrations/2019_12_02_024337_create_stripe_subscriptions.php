@@ -19,6 +19,7 @@ class CreateStripeSubscriptions extends Migration
             $table->string('stripe_customer_id');
             $table->string('stripe_plan_id');
             $table->string('stripe_plan_product');
+            $table->string('stripe_customer_email');
             $table->string('stripe_status');
             $table->integer('stripe_plan_amount');
             $table->boolean('migrate')->default(true);

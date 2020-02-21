@@ -54,6 +54,7 @@ class AddStripeSubscriptions extends Command
                         'subscription_id' => $subscription->stripe_subscription_id,
                         'contact_id' => $user->civicrm_id,
                         'payment_processor_id' => "1",
+                        'membership_id' => $user->civicrm_member_id,
                     ];
 
                     $api = new CiviApi();

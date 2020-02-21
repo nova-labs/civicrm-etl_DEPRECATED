@@ -43,6 +43,7 @@ class CreateTransferUsers extends Migration
             $table->boolean('transfer')->default(true);
 
             $table->integer('civicrm_id')->unsigned()->nullable();
+            $table->integer('civicrm_member_id')->unsigned()->nullable();
 
             $table->timestamps();
         });
