@@ -64,7 +64,7 @@ class AddMemberships extends Command
                 "contact_id" => $member->civicrm_id,
             ];
 
-            if ($member_type && $member->migrated) {
+            if ($member_type && !$member->not_migrated) {
 
                 $api = new CiviApi();
 
