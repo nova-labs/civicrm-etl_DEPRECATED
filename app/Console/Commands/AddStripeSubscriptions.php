@@ -49,7 +49,7 @@ class AddStripeSubscriptions extends Command
                 $user = TransferUser::where('email','=',$subscription->stripe_customer_email)->first();
                 // data import was different between user and subscriptions - missing user records cause errors
 
-                if ($user){
+                if ($user && $user->civicrm_member_id){
                     $subscription_values = [
                         'subscription_id' => $subscription->stripe_subscription_id,
                         'contact_id' => $user->civicrm_id,
