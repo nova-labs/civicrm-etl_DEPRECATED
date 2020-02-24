@@ -48,9 +48,18 @@ class AddRelationships extends Command
             'is_active' => "1",
         ];
 
-        $result = $api->ContactType->Create($tool_values);
+        $existing = $api->ContactType->Get(['name' => $tool_values['name'] ]);
 
-        //logging here
+        if ($existing->count == 0){
+            $result = $api->ContactType->Create($tool_values);
+            $this->logResults('Added Tool: with id:' . $result,
+                '', true);
+        }
+        else
+        {
+            $this->logResults('Skipping Tool: with : ' . $tool_values['name'],
+                '', true);
+        }
 
         $tool_relationship = [
             "name_a_b" => "Signed off on",
@@ -63,12 +72,8 @@ class AddRelationships extends Command
             "is_active" => "1",
         ];
 
-        $result = $api->RelationshipType->Create($tool_relationship);
+        $this->addRelationship($tool_relationship);
 
-        $log = Logging::create([
-            'message' => 'Added Relationship: Signoff with id:' . $result,
-            'success' => true,
-        ]);
 
         $family_relationship = [
             "name_a_b" => "Family Primary for",
@@ -79,12 +84,8 @@ class AddRelationships extends Command
             "is_active" => "1",
         ];
 
-        $result = $api->RelationshipType->Create($family_relationship);
+        $this->addRelationship($family_relationship);
 
-        $log = Logging::create([
-            'message' => 'Added Relationship: Family Primary with id:' . $result,
-            'success' => true,
-        ]);
 
         $sponsor_relationship = [
             "name_a_b" => "Sponsored",
@@ -95,11 +96,35 @@ class AddRelationships extends Command
             "is_active" => "1"
         ];
 
-        $result = $api->RelationshipType->Create($sponsor_relationship);
+        $this->addRelationship($sponsor_relationship);
+
+    }
+
+    public function addRelationship($relationship_info){
+
+        $api = new CiviApi();
+
+        $existing = $api->RelationshipType->Get(['description' => $relationship_info['description'] ]);
+
+        if($existing->count == 0){
+            $result = $api->RelationshipType->Create($relationship_info);
+            $this->logResults('Added Relationship:  with id: ' . $result . ' for relationship: ' . $relationship_info['description'],
+                '', true);
+        }
+        else
+        {
+            $this->logResults('Skipped adding Relationship: for '. $relationship_info['description'],
+                '', true);
+        }
+
+    }
+
+    public function logResults($text, $error, $success){
 
         $log = Logging::create([
-            'message' => 'Added Relationship: Sponsor with id:' . $result,
-            'success' => true,
+            'message' => $text,
+            'error' => $error,
+            'success' => $success,
         ]);
     }
 }
