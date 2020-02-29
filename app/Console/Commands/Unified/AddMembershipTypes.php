@@ -79,7 +79,7 @@ class AddMembershipTypes extends Command
 
         if ($existing->count == 0){
             $result = $api->MembershipType->Create($membership_type_values);
-            $this->logResults('Added Membership Type: with id:' . $result . ' for name: ' . $membership_type_values['name'],
+            $this->logResults('Added Membership Type: with id:' . $result->id . ' for name: ' . $membership_type_values['name'],
                 '', true);
         }
         else

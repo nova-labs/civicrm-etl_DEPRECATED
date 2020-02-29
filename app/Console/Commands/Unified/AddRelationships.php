@@ -108,7 +108,7 @@ class AddRelationships extends Command
 
         if($existing->count == 0){
             $result = $api->RelationshipType->Create($relationship_info);
-            $this->logResults('Added Relationship:  with id: ' . $result . ' for relationship: ' . $relationship_info['description'],
+            $this->logResults('Added Relationship:  with id: ' . $result->id . ' for relationship: ' . $relationship_info['description'],
                 '', true);
         }
         else
