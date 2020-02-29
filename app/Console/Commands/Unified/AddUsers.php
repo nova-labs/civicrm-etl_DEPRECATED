@@ -41,12 +41,12 @@ class AddUsers extends Command
      * @param $rounds
      * @return mixed
      */
-    public function handle($rounds)
+    public function handle()
     {
         // default to a limited number of user per round
-        $rounds = (int) $rounds;
+        $rounds = (int) $this->argument('rounds');
         if ($rounds == -1 )
-            $users_per_rounds = config(migration.users_per_round);
+            $users_per_rounds = config('migration.users_per_round');
         else
             $users_per_rounds = $rounds;
 
@@ -106,23 +106,28 @@ class AddUsers extends Command
             $transfer_user->civicrm_id = $result->id;
             $transfer_user->update();
 
-            $signoff_result = $this->addSignOffs($transfer_user->civicrm_id);
+            $signoff_result = $this->addSignOffs($transfer_user->id);
 
-            $signoff_result = $this->addMembership($transfer_user->civicrm_id);
+            $membership_result = $this->addMembership($transfer_user->civicrm_id);
+
+            $this->logResults('User added: ' . $transfer_user->name . ' with id:' . $result
+            . ' and ' . $signoff_result . ' signoffs and membership id:' . $membership_result);
+
+            $bar->advance();
 
         }
     }
 
-    public function addSignOffs($user_civicrm_id){
+    public function addSignOffs($user_id,$user_civicrm_id){
         $signoffs = TransferGroupUser::where('transfer', 1)->where('not_migrated',1)
-            ->where('user_id',$user_civicrm_id)->get();
+            ->where('user_id',$user_id)->get();
 
         $signoff_count = 0;
 
         foreach($signoffs as $signoff){
 
             $tool = TransferGroup::where('id', $signoff->group_id )->first();
-            $tool_active = ($tool and $tool->civicrm_id);
+            $tool_active = ($tool && $tool->civicrm_id);
 
             if ($tool_active){
                 $signoff_values = [
@@ -152,9 +157,9 @@ class AddUsers extends Command
 
     public function addMembership($user_civicrm_id){
 
-        $membership_types = config(migration.membership_types);
+        $membership_types = config('migration.membership_types');
 
-        $member = TransferUser::where('civicrm_id', '', $user_civicrm_id)
+        $member = TransferUser::where('civicrm_id', $user_civicrm_id)
             ->first();
 
         $array_index = array_search($member->member_type, $membership_types);
