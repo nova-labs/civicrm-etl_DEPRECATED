@@ -38,7 +38,6 @@ class AddUsers extends Command
     /**
      * Execute the console command.
      *
-     * @param $rounds
      * @return mixed
      */
     public function handle()
@@ -106,12 +105,12 @@ class AddUsers extends Command
             $transfer_user->civicrm_id = $result->id;
             $transfer_user->update();
 
-            $signoff_result = $this->addSignOffs($transfer_user->id);
+            $signoff_result = $this->addSignOffs($transfer_user->id, $result->id);
 
             $membership_result = $this->addMembership($transfer_user->civicrm_id);
 
             $this->logResults('User added: ' . $transfer_user->name . ' with id:' . $result
-            . ' and ' . $signoff_result . ' signoffs and membership id:' . $membership_result);
+            . ' and ' . $signoff_result . ' signoffs and membership id:' . $membership_result, '', true);
 
             $bar->advance();
 
