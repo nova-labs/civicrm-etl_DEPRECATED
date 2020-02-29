@@ -3,6 +3,7 @@
 namespace App\Console\Commands\Unified;
 
 use App\Logging;
+use App\StripeSubscriptions;
 use App\TransferGroup;
 use App\TransferGroupUser;
 use App\TransferUser;
@@ -188,12 +189,40 @@ class AddUsers extends Command
                 $member->civicrm_member_id = $result->id;
                 $member->save();
 
-                return($result->id);
+                $this->addSubscription($member, $result->id);
+
+                return($result->id );
             }
         }
     }
 
-    public function addSubscription($relationship_info){}
+    public function addSubscription($member, $membership_id){
+
+        $subscriptions = StripeSubscriptions::where('stripe_customer_email', $member->email)->get();
+
+        foreach($subscriptions as $subscription){
+
+            if(stripos($subscription->stripe_plan_id,  $member->member_type)){
+                $subscription_values = [
+                    'subscription_id' => $subscription->stripe_subscription_id,
+                    'contact_id' => $member->civicrm_id,
+                    'payment_processor_id' => "1",
+                    'membership_id' => $membership_id,
+                ];
+
+                $api = new CiviApi();
+
+                $result = $api->StripeSubscription->Import($subscription_values);
+
+                $subscription->processed = true;
+                $subscription->update();
+                echo ".";
+
+                return(' subscription id:' . $result->id);
+            }
+        }
+        
+    }
 
     public function addFamily($relationship_info){}
 
