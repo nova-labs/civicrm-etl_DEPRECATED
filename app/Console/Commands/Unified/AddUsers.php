@@ -109,7 +109,7 @@ class AddUsers extends Command
 
             $membership_result = $this->addMembership($transfer_user->civicrm_id);
 
-            $this->logResults('User added: ' . $transfer_user->name . ' with id:' . $result
+            $this->logResults('User added: ' . $transfer_user->name . ' with id:' . $result->id
             . ' and ' . $signoff_result . ' signoffs and membership id:' . $membership_result, '', true);
 
             $bar->advance();
