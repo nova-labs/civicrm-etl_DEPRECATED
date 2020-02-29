@@ -96,7 +96,7 @@ class CreateStoredProcedures extends Migration
         `updated_at`,
         `name`,
         `email`
-        FROM member;
+        FROM members;
          
          END');
     }
