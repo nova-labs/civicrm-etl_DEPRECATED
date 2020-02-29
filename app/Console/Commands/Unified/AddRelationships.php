@@ -52,7 +52,7 @@ class AddRelationships extends Command
 
         if ($existing->count == 0){
             $result = $api->ContactType->Create($tool_values);
-            $this->logResults('Added Tool: with id:' . $result,
+            $this->logResults('Added Tool: with id:' . $result->id,
                 '', true);
         }
         else
