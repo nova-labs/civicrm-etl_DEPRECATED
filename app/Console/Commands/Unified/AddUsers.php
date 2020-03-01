@@ -162,9 +162,9 @@ class AddUsers extends Command
         $member = TransferUser::where('civicrm_id', $user_civicrm_id)
             ->first();
 
-        $array_index = array_search($member->member_type, $membership_types);
+        $key_exists = array_key_exists($member->member_type, $membership_types);
 
-        if($array_index && $membership_types[$member->member_type] == 'subscription'){
+        if($key_exists && $membership_types[$member->member_type] == 'subscription'){
                 // subscription implies that user needs a membership
 
             $member_type = '';
