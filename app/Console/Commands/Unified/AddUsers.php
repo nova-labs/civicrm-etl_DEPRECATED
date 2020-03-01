@@ -189,9 +189,9 @@ class AddUsers extends Command
                 $member->civicrm_member_id = $result->id;
                 $member->save();
 
-                $this->addSubscription($member, $result->id);
+                $subscription_result = $this->addSubscription($member, $result->id);
 
-                return($result->id );
+                return($result->id . $subscription_result);
             }
         }
     }
@@ -221,7 +221,7 @@ class AddUsers extends Command
                 return(' subscription id:' . $result->id);
             }
         }
-        
+
     }
 
     public function addFamily($relationship_info){}
